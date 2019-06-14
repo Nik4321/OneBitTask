@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Customers Index";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Welcome</h2>
+    <p>You can view your customer data here.</p>
+    <a asp-controller="Customer" asp-action="Create" class="btn btn-success">Create Customer</a>
+</div>
+
+<table id="customer-list-table" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/Customer/index.js"></script>
+    <script>
+        CustomerIndex.init();
+    </script>
+}

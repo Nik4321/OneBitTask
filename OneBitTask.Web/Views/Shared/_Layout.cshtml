@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["AppName"] = "OneBit Portal";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    @{ await Html.RenderPartialAsync("_Styles");}
+    @RenderSection("Styles", required: false)
+
+</head>
+<body>
+    <header>
+        @{ await Html.RenderPartialAsync("_Navbar");}
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - @ViewData["AppName"]
+        </div>
+    </footer>
+
+    @{ await Html.RenderPartialAsync("_Scripts");}
+    @{ await Html.RenderPartialAsync("_Toast");}
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

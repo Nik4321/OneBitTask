@@ -1,0 +1,29 @@
+﻿@{
+    var errorMessage = TempData["ErrorMessage"];
+    var successMessage = TempData["SuccessMessage"];
+    var warningMessage = TempData["WarningMessage"];
+    TempData["ErrorMessage"] = null;
+    TempData["SuccessMessage"] = null;
+    TempData["WarningMessage"] = null;
+}
+<script>
+
+    @if (errorMessage != null)
+    {
+        @:toastr.error('@errorMessage');
+        @:console.log('@errorMessage');
+    }
+
+    @if (successMessage != null)
+    {
+        @:toastr.success('@successMessage');
+        @:console.log('@successMessage');
+    }
+
+    @if (warningMessage != null)
+    {
+        @:toastr.warning('@warningMessage');
+        @:console.log('@warningMessage');
+    }
+
+</script>

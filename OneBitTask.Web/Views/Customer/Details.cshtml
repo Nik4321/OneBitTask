@@ -1,0 +1,80 @@
+﻿@model DetailsCustomerViewModel
+@{
+    ViewData["Title"] = "Customer Details - " + @Model.Name;
+}
+
+<div class="row">
+    <div class="col-4" style="padding-right: 0px">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="col-3" style="padding-left: 0px">
+        <a asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary custom-btn-margin">Edit</a>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-3">
+        <h3>Purchase orders</h3>
+    </div>
+    <div class="col-9">
+        <button type="button" class="btn btn-success custom-btn-margin float-right" data-toggle="modal" data-target="#add-purchase-order-modal">Add Purchase Order</button>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">Id</th>
+            <th class="text-center" scope="col">Description</th>
+            <th class="text-center" scope="col">Price</th>
+            <th class="text-center" scope="col">Quantity</th>
+            <th class="text-center" scope="col">Total Amount</th>
+            <th class="text-center" scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.PurchaseOrders.Any())
+        {
+            @foreach (var order in Model.PurchaseOrders)
+            {
+                <tr class="@(order.Status == EntityStatus.Inactive ? "inactive" : "")">
+                    <td class="text-center">@order.Id</td>
+                    <td class="text-center">@order.Description</td>
+                    <td class="text-center">@order.Price</td>
+                    <td class="text-center">@order.Quantity</td>
+                    <td class="text-center">@order.TotalAmount</td>
+                    <td class="table-options-group">
+                        <div class="text-center">
+                            <button type="button" id="@order.Id" class="btn btn-danger btn-sm delete-purchase-order-btn">Delete</button>
+                            @{
+                                var buttonValue = order.Status == EntityStatus.Active ? "Deactivate" : "Active";
+                            }
+
+                            <button type="button" id="@order.Id" class="btn btn-secondary btn-sm change-purchase-order-status-btn">@buttonValue</button>
+
+                            <a asp-controller="PurchaseOrder" asp-action="Edit" asp-route-id="@order.Id" class="btn btn-secondary btn-sm" id="@order.Id">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <th colspan="6" class="text-center">No purchase orders to display</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{ await Html.RenderPartialAsync("_AddPurchaseOrderModal", new AddPurchaseOrderViewModel() { CustomerId = Model.Id });}
+
+@section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script src="~/js/Customer/details.js"></script>
+
+    <script>
+        CustomerDetails.init();
+    </script>
+}

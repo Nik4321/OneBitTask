@@ -1,0 +1,41 @@
+﻿@model EditPurchaseOrderViewModel
+
+<h2>Edit Purchase Order</h2>
+<form asp-controller="PurchaseOrder" asp-action="Edit" method="post">
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.CustomerId)
+
+    <div class="form-group">
+        <label asp-for="Description" class="form-check-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="form-check-label">Price</label>
+        <input asp-for="Price" id="purchase-order-price-input" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantity" class="form-check-label">Quantity</label>
+        <input asp-for="Quantity" id="purchase-order-quantity-input" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="form-check-label">Total Amount</label>
+        <input id="purchase-order-total-amount-input" value="@Model.TotalAmount" disabled="disabled" class="form-control" />
+    </div>
+
+    <a asp-controller="Customer" asp-action="Details" asp-route-id="@Model.CustomerId" class="btn btn-secondary" data-dismiss="modal">Back</a>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/js/PurchaseOrder/edit.js"></script>
+    <script>
+        PurchaseOrderEdit.init()
+    </script>
+}
